@@ -4,6 +4,20 @@ generated using Luminus version "2.9.12.78"
 
 FIXME
 
+## Todo
+
+### Phase 1
+- ~~Registration page and link from front page~~
+- ~~Registration form~~
+- Change users table to have an auto generated id
+- Registration validation and error message display
+- Registration back-end
+- "Redirect" to front page after registration
+- Login form
+- Login back-end
+- Login validation
+- Hide login form for logged in users
+
 ## Prerequisites
 
 You will need [Leiningen][1] 2.0 or above installed.

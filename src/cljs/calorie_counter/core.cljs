@@ -5,7 +5,8 @@
             [markdown.core :refer [md->html]]
             [calorie-counter.ajax :refer [load-interceptors!]]
             [ajax.core :refer [GET POST]]
-            [secretary.core :as secretary :include-macros true])
+            [secretary.core :as secretary :include-macros true]
+            [calorie-counter.components.auth :refer [registration-form]])
   (:import goog.History))
 
 (defonce session (r/atom {:page :home}))
@@ -37,14 +38,17 @@
 
 (defn home-page []
   [:div.container
-   (when-let [docs (:docs @session)]
-     [:div.row>div.col-sm-12
-      [:div {:dangerouslySetInnerHTML
-             {:__html (md->html docs)}}]])])
+   [:a {:href "#/registration"} "Create account"]])
+
+(defn registration-page []
+  [:div.container
+   [:h1 "Registration"]
+   [registration-form]])
 
 (def pages
   {:home #'home-page
-   :about #'about-page})
+   :about #'about-page
+   :registration #'registration-page})
 
 (defn page []
   [(pages (:page @session))])
@@ -56,6 +60,9 @@
 
 (secretary/defroute "/" []
   (swap! session assoc :page :home))
+
+(secretary/defroute "/registration" []
+                    (swap! session assoc :page :registration))
 
 (secretary/defroute "/about" []
   (swap! session assoc :page :about))
@@ -71,17 +78,11 @@
             (secretary/dispatch! (.-token event))))
         (.setEnabled true)))
 
-;; -------------------------
-;; Initialize app
-(defn fetch-docs! []
-  (GET "/docs" {:handler #(swap! session assoc :docs %)}))
-
 (defn mount-components []
   (r/render [#'navbar] (.getElementById js/document "navbar"))
   (r/render [#'page] (.getElementById js/document "app")))
 
 (defn init! []
   (load-interceptors!)
-  (fetch-docs!)
   (hook-browser-navigation!)
   (mount-components))

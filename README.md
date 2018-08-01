@@ -10,7 +10,8 @@ FIXME
 - ~~Registration page and link from front page~~
 - ~~Registration form~~
 - ~~Change users table to have an auto generated id~~
-- Registration validation and error message display
+- ~~Registration validation and error message display~~
+- Setup tempura for translations
 - Registration back-end
 - "Redirect" to front page after registration
 - Login form

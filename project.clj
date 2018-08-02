@@ -34,7 +34,8 @@
                  [ring/ring-core "1.6.3"]
                  [ring/ring-defaults "0.3.2"]
                  [secretary "1.2.3"]
-                 [selmer "1.11.8"]]
+                 [selmer "1.11.8"]
+                 [com.taoensso/tempura "1.2.1"]]
 
   :min-lein-version "2.0.0"
   

@@ -11,7 +11,7 @@ FIXME
 - ~~Registration form~~
 - ~~Change users table to have an auto generated id~~
 - ~~Registration validation and error message display~~
-- Setup tempura for translations
+- ~~Setup tempura for translations (determining correct language done later)~~
 - Registration back-end
 - "Redirect" to front page after registration
 - Login form

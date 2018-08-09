@@ -2,7 +2,20 @@
   (:require [reagent.core :as r]
             [struct.core :as st]
             [calorie-counter.validation :refer [registration-scheme]]
-            [calorie-counter.il8n :refer [trs]]))
+            [calorie-counter.il8n :refer [trs]]
+            [calorie-counter.core :refer [session]]
+            [ajax.core :refer [POST]]))
+
+(defn register! [fields errors]
+  (POST "/api/users"
+        {:params @fields
+         :handler #(do
+                    (reset! fields {})
+                    (reset! errors nil)
+                    (swap! session assoc :page :home))
+         :error-handler #(do
+                          (println %)
+                          (reset! errors (-> % :response :errors)))}))
 
 (defn form-input [fields errors label placeholder key & {:keys [props] :or {props {}}}]
   (let [error-msg (key @errors)
@@ -23,10 +36,11 @@
     (fn []
       [:div
        (form-input fields errors (trs [:email]) "someone@example.org" :email)
-       (form-input fields errors (trs [:password]) "" :password)
+       (form-input fields errors (trs [:password]) "" :password :props {:type "password"})
        (form-input fields errors (trs [:first_name]) "" :first_name)
        (form-input fields errors (trs [:last_name]) "" :last_name)
        [:button.btn.btn-primary {:on-click #(do
-                                             (reset! errors (first (st/validate @fields registration-scheme)))
-                                             (println @errors)
+                                             (if-let [err-msgs (first (st/validate @fields registration-scheme))]
+                                               (reset! errors err-msgs)
+                                               (register! fields errors))
                                              )} (trs [:submit])]])))

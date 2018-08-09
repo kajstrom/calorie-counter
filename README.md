@@ -13,8 +13,9 @@ FIXME
 - ~~Registration validation and error message display~~
 - ~~Setup tempura for translations (determining correct language done later)~~
 - ~~Registration back-end~~
-- Displaying back-end validation error messages.
-- "Redirect" to front page after registration
+- ~~Displaying back-end validation error messages.~~
+- ~~"Redirect" to front page after registration~~
+- Display message about successful registration after registration
 - Login form
 - Login back-end
 - Login validation

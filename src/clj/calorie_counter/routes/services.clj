@@ -4,7 +4,11 @@
             [schema.core :as s]
             [compojure.api.meta :refer [restructure-param]]
             [buddy.auth.accessrules :refer [restrict]]
-            [buddy.auth :refer [authenticated?]]))
+            [buddy.auth :refer [authenticated?]]
+            [buddy.hashers :as hash]
+            [struct.core :as st]
+            [calorie-counter.db.core :refer [create-user!]]
+            [calorie-counter.validation :refer [registration-scheme]]))
 
 (defn access-error [_ _]
   (unauthorized {:error "unauthorized"}))
@@ -21,6 +25,20 @@
   [_ binding acc]
   (update-in acc [:letks] into [binding `(:identity ~'+compojure-api-request+)]))
 
+(s/defschema Registration
+  {:email s/Str
+   :password s/Str
+   :first_name s/Str
+   :last_name s/Str})
+
+(defn post-user-handler [registration]
+  (if-let [errors (first (st/validate registration registration-scheme))]
+    (bad-request errors)
+    (do (-> (assoc registration :pass (hash/derive (:password registration)))
+            (dissoc :password)
+            (create-user!))
+      (ok))))
+
 (defapi service-routes
   {:swagger {:ui "/swagger-ui"
              :spec "/swagger.json"
@@ -32,9 +50,15 @@
        :auth-rules authenticated?
        :current-user user
        (ok {:user user}))
+
   (context "/api" []
-    :tags ["thingie"]
-    
+    :tags ["CalorieCounter"]
+
+    (POST "/users" []
+          :body [registration Registration]
+          :summary "Registers a new user"
+          (post-user-handler registration))
+
     (GET "/plus" []
       :return       Long
       :query-params [x :- Long, {y :- Long 1}]

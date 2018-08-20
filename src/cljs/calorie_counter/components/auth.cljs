@@ -3,7 +3,8 @@
             [struct.core :as st]
             [calorie-counter.validation :refer [registration-scheme]]
             [calorie-counter.il8n :refer [trs]]
-            [calorie-counter.core :refer [session]]
+            [calorie-counter.session :refer [session]]
+            [calorie-counter.components.notification :refer [add-notification]]
             [ajax.core :refer [POST]]))
 
 (defn register! [fields errors]
@@ -12,6 +13,7 @@
          :handler #(do
                     (reset! fields {})
                     (reset! errors nil)
+                    (add-notification (trs [:registration-success-notification]) :success)
                     (swap! session assoc :page :home))
          :error-handler #(do
                           (println %)

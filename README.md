@@ -15,7 +15,8 @@ FIXME
 - ~~Registration back-end~~
 - ~~Displaying back-end validation error messages.~~
 - ~~"Redirect" to front page after registration~~
-- Display message about successful registration after registration
+- ~~Display message about successful registration after registration~~
+- Redirect to front-page does not update route!
 - Login form
 - Login back-end
 - Login validation
@@ -72,9 +73,10 @@ Links used to create the dev env
 
 ## Running
 
-To start a web server for the application, run:
+To start a web server for the application, run (in separate consoles):
 
     lein run 
+    lein figwheel
 
 ## License
 

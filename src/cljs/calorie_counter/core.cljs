@@ -6,11 +6,11 @@
             [calorie-counter.ajax :refer [load-interceptors!]]
             [ajax.core :refer [GET POST]]
             [secretary.core :as secretary :include-macros true]
+            [calorie-counter.session :refer [session]]
             [calorie-counter.components.auth :refer [registration-form]]
-            [calorie-counter.il8n :refer [trs]])
+            [calorie-counter.il8n :refer [trs]]
+            [calorie-counter.components.notification :refer [notification-list]])
   (:import goog.History))
-
-(defonce session (r/atom {:page :home}))
 
 (defn nav-link [uri title page]
   [:li.nav-item
@@ -39,6 +39,7 @@
 
 (defn home-page []
   [:div.container
+   [notification-list]
    [:a {:href "#/registration"} (trs [:create-account])]])
 
 (defn registration-page []

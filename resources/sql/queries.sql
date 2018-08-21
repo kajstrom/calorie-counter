@@ -19,3 +19,8 @@ WHERE id = :id
 -- :doc deletes a user record given the id
 DELETE FROM users
 WHERE id = :id
+
+-- :name user-email-count :? :1
+-- :doc retrieces count of the user email addresses
+SELECT COUNT(email) AS email_cnt FROM users
+WHERE email = :email

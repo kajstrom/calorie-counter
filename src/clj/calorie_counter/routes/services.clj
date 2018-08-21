@@ -7,7 +7,7 @@
             [buddy.auth :refer [authenticated?]]
             [buddy.hashers :as hash]
             [struct.core :as st]
-            [calorie-counter.db.core :refer [create-user!]]
+            [calorie-counter.db.core :refer [create-user! user-email-count]]
             [calorie-counter.validation :refer [registration-scheme]]))
 
 (defn access-error [_ _]
@@ -32,12 +32,15 @@
    :last_name s/Str})
 
 (defn post-user-handler [registration]
-  (if-let [errors (first (st/validate registration registration-scheme))]
-    (bad-request errors)
-    (do (-> (assoc registration :pass (hash/derive (:password registration)))
-            (dissoc :password)
-            (create-user!))
-      (ok))))
+  (let [email (:email registration)]
+    (if (> (:email_cnt (user-email-count {:email email})) 0)
+      (bad-request {:errors {:email "email address is already in use"}})
+      (if-let [errors (first (st/validate registration registration-scheme))]
+        (bad-request errors)
+        (do (-> (assoc registration :pass (hash/derive (:password registration)))
+                (dissoc :password)
+                (create-user!))
+          (ok))))))
 
 (defapi service-routes
   {:swagger {:ui "/swagger-ui"

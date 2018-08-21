@@ -16,7 +16,8 @@ FIXME
 - ~~Displaying back-end validation error messages.~~
 - ~~"Redirect" to front page after registration~~
 - ~~Display message about successful registration after registration~~
-- Redirect to front-page does not update route!
+- ~~Redirect to front-page does not update route!~~
+- Enforce email uniqueness in registration
 - Login form
 - Login back-end
 - Login validation

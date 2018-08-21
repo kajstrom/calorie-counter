@@ -3,7 +3,7 @@
             [struct.core :as st]
             [calorie-counter.validation :refer [registration-scheme]]
             [calorie-counter.il8n :refer [trs]]
-            [calorie-counter.session :refer [session]]
+            [calorie-counter.session :refer [session redirect-to-hash!]]
             [calorie-counter.components.notification :refer [add-notification]]
             [ajax.core :refer [POST]]))
 
@@ -14,7 +14,7 @@
                     (reset! fields {})
                     (reset! errors nil)
                     (add-notification (trs [:registration-success-notification]) :success)
-                    (swap! session assoc :page :home))
+                    (redirect-to-hash! ""))
          :error-handler #(do
                           (println %)
                           (reset! errors (-> % :response :errors)))}))

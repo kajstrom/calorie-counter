@@ -18,10 +18,11 @@ FIXME
 - ~~Display message about successful registration after registration~~
 - ~~Redirect to front-page does not update route!~~
 - ~~Enforce email uniqueness in registration~~
-- Login form
-- Login back-end
+- ~~Login form~~
 - Login validation
+- Login back-end
 - Hide login form for logged in users
+- Fix notifications being displayed only in the front page
 
 ## Prerequisites
 

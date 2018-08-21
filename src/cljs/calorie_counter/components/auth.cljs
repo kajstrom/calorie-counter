@@ -46,3 +46,14 @@
                                                (reset! errors err-msgs)
                                                (register! fields errors))
                                              )} (trs [:submit])]])))
+
+(defn login-form []
+  (let [fields (r/atom {})
+        errors (r/atom nil)]
+    (fn []
+      [:div
+       [:h1 "Login"]
+       (form-input fields errors (trs [:email]) "" :email)
+       (form-input fields errors (trs [:password]) "" :password :props {:type "password"})
+       [:button.btn.btn-primary (trs [:submit])]
+       ])))
